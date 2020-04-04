@@ -27,6 +27,11 @@
         WHERE  userid = #{id}
     </update>
 
+    <insert id="registerUser" parameterType="User">
+        INSERT INTO user(username,password,roleid)
+        VALUE (#{username}, #{password},2)
+    </insert>
+
     <select id="queryUserById" resultMap="userResultMap" parameterType="int">
         SELECT userid,username,password,roleid
         FROM user

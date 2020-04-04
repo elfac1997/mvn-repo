@@ -11,6 +11,8 @@ public interface UserDao {
 
     int updateUser(User user);
 
+    int registerUser(User user);
+
     int deleteUserById(int id);
 
     User queryUserById(int id);

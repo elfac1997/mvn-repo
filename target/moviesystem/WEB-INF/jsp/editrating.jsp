@@ -1,16 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
   User: root
-  Date: 2020/3/23
-  Time: 下午2:56
+  Date: 2020/4/3
+  Time: 下午6:25
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>editrating</title>
 </head>
 <body>
-
+<a href="logout">安全退出</a>
 </body>
 </html>

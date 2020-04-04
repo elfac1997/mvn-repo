@@ -1,3 +1,4 @@
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
   User: root
@@ -17,5 +18,14 @@
     <input type="submit" value="login"/><br>
 <%--    <font color="red">${errorMsg }</font>--%>
 </form>
+<a href="/user/registerUser"> register</a><br>
+<a href="logout">安全退出</a>
+<shiro:hasRole name="admin">
+    具备admin角色才能看到这句话<br>
+</shiro:hasRole>
+
+<shiro:hasRole name="user">
+    具备user角色才能看到这句话<br>
+</shiro:hasRole>
 </body>
 </html>

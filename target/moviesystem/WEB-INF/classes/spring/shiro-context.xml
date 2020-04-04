@@ -28,18 +28,22 @@
         <property name="filterChainDefinitions">
             <value>
                 /user/login=anon
+                /user/registerUser=anon
                 /user/logout=logout
-                /user/save=authc
+                /user/save=anon
                 /user/allUser=roles[admin]
                 /user/addUser=roles[admin]
-                /user/edit=roles[admin]
+                /user/allRating=roles[admin]
+                /user/deleteRating=roles[admin]
+                /user/edit=authc
                 /user/delete=roles[admin]
                 /user/**=authc
-                /movie/save=authc
+                /movie/save=anon
                 /movie/allMovie=roles[admin]
                 /movie/addMovie=roles[admin]
                 /movie/edit=roles[admin]
                 /movie/delete=roles[admin]
+                /movie/logout=logout
                 /movie/**=authc
             </value>
         </property>

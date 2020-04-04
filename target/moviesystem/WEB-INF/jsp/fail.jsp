@@ -1,17 +1,16 @@
 <%--
   Created by IntelliJ IDEA.
   User: root
-  Date: 2020/4/1
-  Time: 下午3:27
+  Date: 2020/4/4
+  Time: 下午1:15
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>unauthorized!</title>
+    <title>registerfail</title>
 </head>
 <body>
-unauthorized
-<a href="logout">安全退出</a>
+username has already existed.
 </body>
 </html>

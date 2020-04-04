@@ -46,6 +46,12 @@ public class UserController {
         return "edit";
     }
 
+    @RequestMapping("/registerUser")
+    public String registerUser(Model model){
+        model.addAttribute("returnUser", new User());
+        return "edit";
+    }
+
     @RequestMapping("/delete")
     public String deleteUser(@RequestParam("id") int id) {
         userService.deleteUserById(id);
@@ -68,12 +74,32 @@ public class UserController {
         System.out.println("***************************************");
         System.out.println(user.toString());
         System.out.println("***************************************");
-        if(user.getId()==null){
+        if(user.getId()!=null){
+            //有id值为修改
+            if(userService.getByUserName(user.getUsername())!=null){
+                return "fail";
+            }
+            if(user.getRoleId() == null){
+                //user change username or password
+                user.setRoleId(2);
+            }
+            userService.updateUser(user);
+        }else if(user.getRoleId()!=null){
             //id为null是保存
             userService.addUser(user);
-        }else{
-            //有id值为修改
-            userService.updateUser(user);
+        }else {
+            System.out.println("**********registeruser***********************");
+            System.out.println(user.toString());
+            System.out.println("*************registeruser********************");
+            String name = user.getUsername();
+            if(userService.getByUserName(name)!=null) {
+                // register failed
+                return "fail";
+            }else {
+                userService.registerUser(user);
+                return "redirect:/user/login";
+            }
+
         }
         return "redirect:/user/allUser";
     }
@@ -137,14 +163,24 @@ public class UserController {
     @RequestMapping("/userRating")
     public String listuserrating(@RequestParam(value="currentPage",defaultValue="1",required=false)
                                      int currentPage, Model model) {
-        model.addAttribute("pagemsg", userService.findByPage(currentPage));//回显分页数据
+        model.addAttribute("pagemsg", ratingService.findByPage(currentPage));//回显分页数据
         return "userRating";
     }
 
     @RequestMapping("/allRating")
     public String listrating(@RequestParam(value="currentPage",defaultValue="1",required=false)
                                int currentPage, Model model) {
-        model.addAttribute("pagemsg", userService.findByPage(currentPage));//回显分页数据
+        model.addAttribute("pagemsg", ratingService.findByPage(currentPage));//回显分页数据
         return "allRating";
+    }
+
+    @RequestMapping("/saveRating")
+    public String saveRating(Rating rating) {
+        System.out.println("***********saving rating**********************");
+        System.out.println(rating.toString());
+        System.out.println("************saving rating*********************");
+        rating.setTimeStamp("");
+        ratingService.addRating(rating);
+        return "redirect:/user/allRating";
     }
 }

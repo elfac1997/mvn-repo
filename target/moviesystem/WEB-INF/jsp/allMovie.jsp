@@ -35,6 +35,7 @@
 <body>
 欢迎你：${currentUser}
 <br>
+<a href="logout">安全退出</a>
 <hr>
 <a href="/movie/addMovie"> 添加movie</a><br>
 <c:if test="${empty requestScope.pagemsg}">

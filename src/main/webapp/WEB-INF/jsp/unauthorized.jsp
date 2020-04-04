@@ -12,5 +12,6 @@
 </head>
 <body>
 unauthorized
+<a href="logout">安全退出</a>
 </body>
 </html>

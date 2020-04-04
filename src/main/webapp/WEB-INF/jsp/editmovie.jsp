@@ -18,6 +18,7 @@
 <body>
 欢迎你：${currentUser}
 <hr>
+<a href="logout">安全退出</a>
 <form:form action="/movie/save" method="post" modelAttribute="returnMovie">
     <form:hidden path="movieId"/>
     movieName:<form:input path="movieName"/><br>

@@ -17,8 +17,6 @@
 
 欢迎你,<shiro:principal/>!<br>
 
-<c:out value="${username}"></c:out>
-
 <shiro:hasRole name="admin">
 具备admin角色才能看到这句话<br>
 </shiro:hasRole>
@@ -43,9 +41,17 @@
 <%--<shiro:hasPermission name="{student:update,user:*}">--%>
 <%--具备student:update,user:*权限才能看到这句话<br>--%>
 <%--</shiro:hasPermission>--%>
-
-<a href="/user/allUser">需要alluser权限才能访问</a><br>
-<a href="/movie/allMovie">需要allmovie权限才能访问</a><br>
+admin permissions:<br>
+<a href="/user/allUser">alluser,需要admin权限才能访问</a><br>
+<a href="/movie/allMovie">allmovie权,需要admin限才能访问</a><br>
+<a href="/user/allRating">view all movie ratings from user,需要admin限才能访问</a><br>
+<%--<a href="/user/deleteRating">delete movie ratings from user,需要admin限才能访问</a><br>--%>
+<br><br>
+user permissions:<br>
+<a href="/user/edit">change password or username</a><br>
+<a href="/user/userRating">view movie ratings from user</a><br>
+<%--<a href="/user/deleteuserRating">delete movie ratings from user,需要admin限才能访问</a><br>--%>
+<br><br>
 <a href="logout">安全退出</a>
 </body>
 </html>
