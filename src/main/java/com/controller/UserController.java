@@ -5,6 +5,8 @@ import com.pojo.Rating;
 import com.pojo.User;
 import com.service.RatingService;
 import com.service.UserService;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.spark.deploy.SparkSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @EnableSwagger2
 @Controller
@@ -104,24 +110,45 @@ public class UserController {
         return "redirect:/user/allUser";
     }
 
+    @RequestMapping("/toLogin")
+        public String toLogin(){
+            return "login";
+        }
+
+
     @RequestMapping("/login")
     public String login(User user, HttpServletRequest request) {
 
         //获取当前用户
         Subject subject=SecurityUtils.getSubject();
-        UsernamePasswordToken token=new UsernamePasswordToken(user.getUsername(), user.getPassword());
-        try{
-            //为当前用户进行认证，授权
-            subject.login(token);
-            request.setAttribute("user", user);
-            return "success";
+        if(subject.isAuthenticated() == false){
+            UsernamePasswordToken token=new UsernamePasswordToken(user.getUsername(), user.getPassword());
+            System.out.println("************user:"+user.toString()+"***********");
+            User u = userService.getByUserName(user.getUsername());
+            System.out.println("************u:"+u.toString()+"***********");
+            try{
+                //为当前用户进行认证，授权
+                subject.login(token);
+                request.setAttribute("user", u);
+                request.setAttribute("userid", u.getId());
+                System.out.println("***success*******user:"+u.toString()+"********user.id:"+u.getId()+"*******");
+                request.setAttribute("successMsg", "login success！");
+            }catch(AuthenticationException e){
+                e.printStackTrace();
+                request.setAttribute("user", u);
+                System.out.println("***error*******u:"+u.toString()+"********u.id:"+u.getId()+"*******");
+                request.setAttribute("errorMsg", "用户名或密码错误！");
+                return "login";
+            }
 
-        }catch(Exception e){
-            e.printStackTrace();
-            request.setAttribute("user", user);
-            //request.setAttribute("errorMsg", "用户名或密码错误！");
-            return "login";
         }
+        return "success";
+    }
+
+    @RequestMapping("/menu")
+    public String menu(@RequestParam("uid") int uid,Model model) {
+        model.addAttribute("userid",uid);
+        return "success";
     }
 
     @RequestMapping("/unauthorized")
@@ -162,8 +189,10 @@ public class UserController {
 
     @RequestMapping("/userRating")
     public String listuserrating(@RequestParam(value="currentPage",defaultValue="1",required=false)
-                                     int currentPage, Model model) {
-        model.addAttribute("pagemsg", ratingService.findByPage(currentPage));//回显分页数据
+                                     int currentPage,
+                                 @RequestParam(value="uid")int uid, Model model) {
+        model.addAttribute("pagemsg", ratingService.findUserRatingByPage(currentPage,uid));//回显分页数据\
+        model.addAttribute("uid",uid);
         return "userRating";
     }
 
@@ -179,8 +208,43 @@ public class UserController {
         System.out.println("***********saving rating**********************");
         System.out.println(rating.toString());
         System.out.println("************saving rating*********************");
-        rating.setTimeStamp("");
-        ratingService.addRating(rating);
+
+        Date date = new Date();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        String dateStr=sdf.format(date);
+        rating.setTimeStamp(dateStr);
+
+        System.out.println("************timestamp:"+rating.getTimeStamp()+"*********************");
+        ratingService.updateRating(rating);
+        int rid = userService.queryUserById(rating.getUserId()).getRoleId();
+        if(rid == 2) {
+            return "redirect:/user/userRating";
+        }
         return "redirect:/user/allRating";
     }
+
+//    @RequestMapping("/submitToSpark")
+//    public String submitToSpark(@RequestParam("uid") int userid) {
+//        System.out.println("userid is :"+userid);
+//        System.out.println("***********starting submit to spark**********************");
+//        String[] args = {
+//                "--class", "recommend.MovieLensALS",
+//                "--master", "spark://master:7077",
+//                "--deploy-mode", "cluster",
+//                "--executor-memory", "1g",
+//                "--total-executor-cores", "2",
+//                "hdfs://localhost:9000/jars/Film_Recommend_Dataframe.jar",
+//                "hdfs:///input_spark",
+//                "1"
+//        };
+//
+//        SparkSubmit.main(args);
+//        System.out.println("************submit finished*********************");
+//        return "redirect:/user/allRating";
+//    }
+        @RequestMapping("/submitToSpark")
+        public String submitToSpark() {
+            System.out.println("***********redirect to 3000**********************");
+            return "redirect:http://localhost:3000";
+        }
 }

@@ -20,5 +20,9 @@ public interface RatingService {
 
     int selectCount();
 
+    int selectUserCount(int uid);
+
     PageBean<Rating> findByPage(int currentPage);
+
+    PageBean<Rating> findUserRatingByPage(int currentPage,int uid);
 }

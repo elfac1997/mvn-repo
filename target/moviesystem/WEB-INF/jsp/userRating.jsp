@@ -74,13 +74,13 @@
             <span>总记录数：${requestScope.pagemsg.totalCount }&nbsp;&nbsp;每页显示:${requestScope.pagemsg.pageSize}</span>&nbsp;&nbsp;
             <span>
        <c:if test="${requestScope.pagemsg.currPage != 1}">
-           <a href="${pageContext.request.contextPath }/user/userRating?currentPage=1">[首页]</a>&nbsp;&nbsp;
-           <a href="${pageContext.request.contextPath }/user/userRating?currentPage=${requestScope.pagemsg.currPage-1}">[上一页]</a>&nbsp;&nbsp;
+           <a href="${pageContext.request.contextPath }/user/userRating?currentPage=1&uid=${uid}">[首页]</a>&nbsp;&nbsp;
+           <a href="${pageContext.request.contextPath }/user/userRating?currentPage=${requestScope.pagemsg.currPage-1}&uid=${uid}">[上一页]</a>&nbsp;&nbsp;
        </c:if>
 
        <c:if test="${requestScope.pagemsg.currPage != requestScope.pagemsg.totalPage}">
-           <a href="${pageContext.request.contextPath }/user/userRating?currentPage=${requestScope.pagemsg.currPage+1}">[下一页]</a>&nbsp;&nbsp;
-           <a href="${pageContext.request.contextPath }/user/userRating?currentPage=${requestScope.pagemsg.totalPage}">[尾页]</a>&nbsp;&nbsp;
+           <a href="${pageContext.request.contextPath }/user/userRating?currentPage=${requestScope.pagemsg.currPage+1}&uid=${uid}">[下一页]</a>&nbsp;&nbsp;
+           <a href="${pageContext.request.contextPath }/user/userRating?currentPage=${requestScope.pagemsg.totalPage}&uid=${uid}">[尾页]</a>&nbsp;&nbsp;
        </c:if>
    </span>
         </td>

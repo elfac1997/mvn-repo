@@ -20,11 +20,11 @@ public interface UserService {
 
     List<User> queryAllUsers();
 
-    public User getByUserName(String username);
+    User getByUserName(String username);
 
-    public Set<String> getRoles(String username);
+    Set<String> getRoles(String username);
 
-    public Set<String> getPermissions(String username);
+    Set<String> getPermissions(String username);
 
     int selectCount();
 

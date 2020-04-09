@@ -20,14 +20,13 @@
 
     <update id="updateRating" parameterType="Rating">
         UPDATE personalratings
-        SET userid = #{userId},
-        movieid = #{movieId},
+        SET
         rating = #{rating},
         timestamp = #{timeStamp}
-        WHERE userid=#{uid} and movieid=#{mid}
+        WHERE userid=#{userId} and movieid=#{movieId}
     </update>
 
-    <select id="queryByIds" resultMap="ratingResultMap">
+    <select id="queryByIds" parameterType="Map" resultMap="ratingResultMap">
         SELECT userid,movieid,rating,timestamp
         FROM personalratings
         WHERE userid=#{uid} and movieid=#{mid}
@@ -43,9 +42,24 @@
         select count(*) from personalratings
     </select>
 
+    <select id="selectUserCount" parameterType="int" resultType="int">
+        select count(*)
+        from personalratings
+        where userid=#{userId}
+    </select>
+
     <select id="findByPage" parameterType="Map" resultMap="ratingResultMap">
         select userid,movieid,rating,timestamp
         from personalratings
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="findUserRatingByPage" parameterType="Map" resultMap="ratingResultMap">
+        select userid,movieid,rating,timestamp
+        from personalratings
+        where userid=#{uid}
         <if test="start!=null and size!=null">
             limit #{start},#{size}
         </if>

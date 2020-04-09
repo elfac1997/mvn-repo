@@ -12,11 +12,15 @@ public interface RatingDao {
 
     int updateRating(Rating rating);
 
-    Rating queryByIds(int uid,int mid);
+    Rating queryByIds(HashMap<String,Object> map);
 
     List<Rating> queryUserRatings();
 
     int selectCount();
 
+    int selectUserCount(int uid);
+
     List<Rating> findByPage(HashMap<String,Object> map);
+
+    List<Rating> findUserRatingByPage(HashMap<String,Object> map);
 }

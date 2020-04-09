@@ -16,7 +16,7 @@
     用户名:<input type="text" name="username" value="${user.username }"/><br/>
     密码:<input type="password" name="password" value="${user.password }"><br/>
     <input type="submit" value="login"/><br>
-<%--    <font color="red">${errorMsg }</font>--%>
+    <font color="red">${errorMsg }</font>
 </form>
 <a href="/user/registerUser"> register</a><br>
 <a href="logout">安全退出</a>

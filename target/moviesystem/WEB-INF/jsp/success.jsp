@@ -14,11 +14,19 @@
 </head>
 <body>
 
+<h1><font color="green">${successMsg }</font></h1>
 
-欢迎你,<shiro:principal/>!<br>
+欢迎你,${user.username}!<br>
 
 <shiro:hasRole name="admin">
-具备admin角色才能看到这句话<br>
+具备admin角色才能看到这句话
+    <br>
+    admin permissions:
+    <br>
+    <a href="/user/allUser">alluser,需要admin权限才能访问</a><br>
+    <a href="/movie/allMovie">allmovie权,需要admin限才能访问</a><br>
+    <a href="/user/allRating">view all movie ratings from user,需要admin限才能访问</a>
+    <br>
 </shiro:hasRole>
 
 
@@ -41,16 +49,14 @@
 <%--<shiro:hasPermission name="{student:update,user:*}">--%>
 <%--具备student:update,user:*权限才能看到这句话<br>--%>
 <%--</shiro:hasPermission>--%>
-admin permissions:<br>
-<a href="/user/allUser">alluser,需要admin权限才能访问</a><br>
-<a href="/movie/allMovie">allmovie权,需要admin限才能访问</a><br>
-<a href="/user/allRating">view all movie ratings from user,需要admin限才能访问</a><br>
-<a href="/user/deleteRating">delete movie ratings from user,需要admin限才能访问</a><br>
+
 <br><br>
 user permissions:<br>
 <a href="/user/edit">change password or username</a><br>
-<a href="/user/userRating">view movie ratings from user</a><br>
-<a href="/user/deleteuserRating">delete movie ratings from user,需要admin限才能访问</a><br>
+<a href="/user/userRating?uid=${userid }">view movie ratings from user</a><br>
+<br><br>
+<a href="/user/submitToSpark">submitToSpark,redirect to 3000</a><br>
+<div>user.getid:${userid }</div>
 <br><br>
 <a href="logout">安全退出</a>
 </body>

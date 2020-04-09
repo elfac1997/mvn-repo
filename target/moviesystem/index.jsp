@@ -16,7 +16,7 @@
 
         h3 {
             width: 180px;
-            height: 38px;
+            height: 50px;
             margin: 100px auto;
             text-align: center;
             line-height: 38px;
@@ -39,7 +39,7 @@
 </div>
 <br><br>
 <h3>
-    <a href="${path }/user/login">点击进入用户登录</a>
+    <a href="/user/toLogin">点击进入用户登录</a>
 </h3>
 </body>
 </html>

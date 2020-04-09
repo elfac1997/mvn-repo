@@ -21,9 +21,9 @@
         <!-- Shiro的核心安全接口,这个属性是必须的 -->
         <property name="securityManager" ref="securityManager"/>
         <!-- 身份认证失败，则跳转到登录页面的配置 -->
-        <property name="loginUrl" value="/user/login"/>
+        <property name="loginUrl" value="/login.jsp"/>
         <!-- 权限认证失败，则跳转到指定页面 -->
-        <property name="unauthorizedUrl" value="/user/unauthorized"/>
+        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
         <!-- Shiro连接约束配置,即过滤链的定义 -->
         <property name="filterChainDefinitions">
             <value>
@@ -37,14 +37,15 @@
                 /user/deleteRating=roles[admin]
                 /user/edit=authc
                 /user/delete=roles[admin]
-                /user/**=authc
+                /user/**=anon
+                /user/submitToSpark=anon
                 /movie/save=anon
                 /movie/allMovie=roles[admin]
                 /movie/addMovie=roles[admin]
                 /movie/edit=roles[admin]
                 /movie/delete=roles[admin]
                 /movie/logout=logout
-                /movie/**=authc
+                /movie/**=anon
             </value>
         </property>
     </bean>

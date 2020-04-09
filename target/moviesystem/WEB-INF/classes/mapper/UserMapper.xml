@@ -43,8 +43,10 @@
         FROM user
     </select>
 
-    <select id="getByUserName" parameterType="String" resultType="User">
-		select * from user where username=#{username}
+    <select id="getByUserName" parameterType="String" resultMap="userResultMap">
+		select userid,username,password,roleid
+		from user
+		where username=#{username}
 	</select>
 
     <select id="getRoles" parameterType="String" resultType="String">
