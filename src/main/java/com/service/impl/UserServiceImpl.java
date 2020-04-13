@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         pageBean.setCurrPage(currentPage);
 
         //每页显示的数据
-        int pageSize=2;
+        int pageSize=10;
         pageBean.setPageSize(pageSize);
 
         //封装总记录数

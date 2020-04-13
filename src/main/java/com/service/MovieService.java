@@ -21,4 +21,6 @@ public interface MovieService {
 
     PageBean<Movie> findByPage(int currentPage);
 
+    List<Integer> queryMovieByUid(int uid);
+
 }

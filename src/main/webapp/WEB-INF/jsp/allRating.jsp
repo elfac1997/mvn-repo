@@ -37,7 +37,7 @@
 欢迎你：${currentUser}
 <br>
 <a href="logout">安全退出</a>
-<a herf="/user/menu?uid=${uid}">return to menu</a>
+<a href="/user/menu?uid=${uid}">return to menu</a>
 <hr>
 <a href="/user/addRating"> 添加rating</a><br>
 <c:if test="${empty requestScope.pagemsg}">
@@ -48,7 +48,9 @@
         <thead>
         <tr>
             <td>userid</td>
+            <td>username</td>
             <td>movieid</td>
+            <td>moviename</td>
             <td>rating</td>
             <td>timestamp</td>
             <td>Edit</td>

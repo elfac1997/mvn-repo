@@ -36,6 +36,7 @@
 欢迎你：${currentUser}
 <br>
 <a href="logout">安全退出</a>
+<br><a href="/user/menu?uid=${uid}">return to menu</a><br>
 <hr>
 <a href="/movie/addMovie"> 添加movie</a><br>
 <c:if test="${empty requestScope.pagemsg}">
@@ -60,7 +61,7 @@
                 <th>${m.movieName}</th>
                 <th>${m.releaseTime}</th>
                 <th>${m.director}</th>
-                <th>${m.picture}</th>
+                <th><img src='${m.picture}'></th>
                 <th><a href="/movie/edit?id=${m.movieId}">Edit</a></th>
                 <th><a href="/movie/delete?id=${m.movieId}" onclick="return confirm('确定要删除吗')">Delete</a></th>
             </tr>

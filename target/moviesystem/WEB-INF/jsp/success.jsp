@@ -35,24 +35,9 @@
 </shiro:hasRole>
 
 
-<%--<shiro:hasPermission name="/user/allUser">--%>
-<%--具备admin权限才能看到这句话<br>--%>
-<%--</shiro:hasPermission>--%>
-
-
-<%--<shiro:hasPermission name="student:update">--%>
-<%--具备student:update权限才能看到这句话<br>--%>
-<%--</shiro:hasPermission>--%>
-<%--<br>--%>
-
-
-<%--<shiro:hasPermission name="{student:update,user:*}">--%>
-<%--具备student:update,user:*权限才能看到这句话<br>--%>
-<%--</shiro:hasPermission>--%>
-
 <br><br>
 user permissions:<br>
-<a href="/user/edit">change password or username</a><br>
+<a href="/user/edit?uid=${userid }">change password or username</a><br>
 <a href="/user/userRating?uid=${userid }">view movie ratings from user</a><br>
 <br><br>
 <a href="/user/submitToSpark">submitToSpark,redirect to 3000</a><br>

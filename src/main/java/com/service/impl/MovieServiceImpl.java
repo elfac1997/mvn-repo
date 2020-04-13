@@ -69,4 +69,8 @@ public class MovieServiceImpl implements MovieService {
 
         return pageBean;
     }
+
+    public List<Integer> queryMovieByUid(int uid){
+        return moviedao.queryMovieByUid(uid);
+    }
 }

@@ -19,4 +19,8 @@ public interface MovieDao {
     int selectCount();
 
     List<Movie> findByPage(HashMap<String,Object> map);
+
+    List<Integer> queryMovieByUid(int uid);
+
+
 }

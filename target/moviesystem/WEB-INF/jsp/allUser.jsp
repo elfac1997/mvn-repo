@@ -36,6 +36,7 @@
 欢迎你：${currentUser}
 <br>
 <a href="logout">安全退出</a>
+<br><a href="/user/menu?uid=${uid}">return to menu</a><br>
 <hr>
 <a href="/user/addUser"> 添加用户</a><br>
 <c:if test="${empty requestScope.pagemsg}">

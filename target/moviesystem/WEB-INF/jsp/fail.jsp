@@ -11,6 +11,6 @@
     <title>registerfail</title>
 </head>
 <body>
-username has already existed.
+username has already existed or u miss some input.
 </body>
 </html>

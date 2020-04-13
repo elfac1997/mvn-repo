@@ -64,4 +64,9 @@
         </if>
     </select>
 
+    <select id="queryMovieByUid" parameterType="int">
+        select movieid
+        from recommendresult
+        where userid = #{uid}
+    </select>
 </mapper>

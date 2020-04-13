@@ -46,8 +46,7 @@
     <table border="1" cellpadding="10" cellspacing="0" class="table1">
         <thead>
         <tr>
-            <td>userid</td>
-            <td>movieid</td>
+            <td>moviename</td>
             <td>rating</td>
             <td>timestamp</td>
             <td>Edit</td>
@@ -56,8 +55,7 @@
         </thead>
         <c:forEach items="${requestScope.pagemsg.lists}" var="r">
             <tr>
-                <th>${r.userId }</th>
-                <th>${r.movieId }</th>
+                <th>${r.movieName }</th>
                 <th>${r.rating }</th>
                 <th>${r.timeStamp }</th>
                 <th><a href="/user/editRating?uid=${r.userId}&mid=${r.movieId}">Edit</a></th>
