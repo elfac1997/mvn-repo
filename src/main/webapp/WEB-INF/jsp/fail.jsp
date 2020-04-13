@@ -12,5 +12,6 @@
 </head>
 <body>
 username has already existed or u miss some input.
+<a href="/user/toLogin">return</a>
 </body>
 </html>

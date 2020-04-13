@@ -16,10 +16,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>编辑rating页面</title>
 </head>
-<body>
-欢迎你：${currentUser}
-<hr>
-<a href="logout">安全退出</a>
 <form:form action="/user/saveRating" method="post" modelAttribute="returnRating">
     userid:<form:input path="userId"/><br>
     movieid:<form:input path="movieId"/><br>
@@ -40,5 +36,12 @@
         </form:select><br>
     <input type="submit" value="提交"/>
 </form:form>
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+        form.render();
+    });
+</script>
 </body>
 </html>

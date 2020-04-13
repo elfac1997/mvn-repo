@@ -10,14 +10,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>userrating列表</title>
+    <title>电影评分列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 引入 Bootstrap -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
     <style type="text/css">
-        td {
-            text-align: center;
-        }
 
         .td2 {
             text-align: right;
@@ -34,37 +31,27 @@
     </style>
 </head>
 <body>
-欢迎你：${currentUser}
-<br>
-<a href="logout">安全退出</a>
-<hr>
-<a href="/user/addRating"> 添加rating</a><br>
-<c:if test="${empty requestScope.pagemsg}">
-    没有任何用户信息！
-</c:if>
-<c:if test="${!empty requestScope.pagemsg}">
-    <table border="1" cellpadding="10" cellspacing="0" class="table1">
-        <thead>
+<!--<table border="1" cellpadding="10" cellspacing="0" class="table1">-->
+<table class="layui-table" >
+    <thead>
+    <tr>
+        <td>电影海报</td>
+        <td>电影名称</td>
+        <td>用户评分</td>
+        <td>修改</td>
+        <td>删除</td>
+    </tr>
+    </thead>
+    <c:forEach items="${requestScope.pagemsg.lists}" var="r">
         <tr>
-            <td>moviename</td>
-            <td>rating</td>
-            <td>timestamp</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <th><img src='${r.movie.picture }'></th>
+            <th>${r.movie.movieName }</th>
+            <th>${r.rating }</th>
+            <th><a href="/user/editRating?uid=${r.userId}&mid=${r.movieId}">修改</a></th>
+            <th><a href="/user/deleteRating?uid=${r.userId}&mid=${r.movieId}" onclick="return confirm('确定要删除吗')">删除</a></th>
         </tr>
-        </thead>
-        <c:forEach items="${requestScope.pagemsg.lists}" var="r">
-            <tr>
-                <th>${r.movieName }</th>
-                <th>${r.rating }</th>
-                <th>${r.timeStamp }</th>
-                <th><a href="/user/editRating?uid=${r.userId}&mid=${r.movieId}">Edit</a></th>
-                <th><a href="/user/deleteRating?uid=${r.userId}&mid=${r.movieId}" onclick="return confirm('确定要删除吗')">Delete</a></th>
-            </tr>
-        </c:forEach>
-    </table>
-</c:if>
-
+    </c:forEach>
+</table>
 <table border="0" cellspacing="0" cellpadding="0" width="900px">
     <tr>
         <td class="td2">

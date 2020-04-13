@@ -10,6 +10,8 @@
 <html>
 <head>
     <title>登录页面login.jsp</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
 </head>
 <body>
 <form action="${pageContext.request.contextPath }/user/login" method="post">
@@ -27,5 +29,4 @@
 <shiro:hasRole name="user">
     具备user角色才能看到这句话<br>
 </shiro:hasRole>
-</body>
-</html>
+</body></html>

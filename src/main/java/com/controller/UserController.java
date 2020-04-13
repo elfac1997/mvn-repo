@@ -12,6 +12,7 @@ import org.apache.spark.deploy.SparkSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @EnableSwagger2
 @Controller
@@ -56,20 +58,15 @@ public class UserController {
         return "allUser";
     }
 
-    @RequestMapping("/addUser")
-    public String addUser(Model model){
-        model.addAttribute("returnUser", new User());
-        return "edit";
-    }
-
     @RequestMapping("/registerUser")
     public String registerUser(Model model){
         model.addAttribute("returnUser", new User());
+        model.addAttribute("register", 1);
         return "edit";
     }
 
     @RequestMapping("/delete")
-    public String deleteUser(@RequestParam("id") int id) {
+    public String deleteUser(@RequestParam("uid") int id) {
         userService.deleteUserById(id);
         return "redirect:/user/allUser";
     }
@@ -79,6 +76,7 @@ public class UserController {
                              Model model){
         User user =userService.queryUserById(id);
         model.addAttribute("returnUser", user);
+        model.addAttribute("register", 2);
         System.out.println("**************id*************************"+id);
         System.out.println(user.toString());
         System.out.println("**************user111*************************");
@@ -86,11 +84,12 @@ public class UserController {
     }
 
     @RequestMapping("/save")
-    public String save(User user) {
+    public String save(User user,Model model) {
         System.out.println("***************************************");
         System.out.println(user.toString());
         System.out.println("***************************************");
         String name = user.getUsername();
+        model.addAttribute("userid",user.getId());
         if(user.getId()!= null) {
             //有id值为修改
             userService.updateUser(user);
@@ -112,17 +111,17 @@ public class UserController {
                 user.setRoleId(2);
                 userService.registerUser(user);
                 System.out.println("***********user success registered*****************");
-                return "redirect:/user/login";
+                return "redirect:/user/toLogin";
             }
         }else {
             return "fail";
         }
-        return "redirect:/user/allUser";
+        return "success";
     }
 
     @RequestMapping("/toLogin")
         public String toLogin(){
-            return "login";
+            return "login2";
         }
 
 
@@ -148,7 +147,7 @@ public class UserController {
                 request.setAttribute("user", u);
                 System.out.println("***error*******u:"+u.toString()+"********u.id:"+u.getId()+"*******");
                 request.setAttribute("errorMsg", "用户名或密码错误！");
-                return "login";
+                return "login2";
             }
         }
         return "success";
@@ -156,13 +155,6 @@ public class UserController {
 
     @RequestMapping("/success")
     public String toSuceess(@RequestParam("uid") int uid,Model model) {
-        System.out.println("*************menu clicked*********uid:"+uid);
-        model.addAttribute("userid",uid);
-        return "success";
-    }
-
-    @RequestMapping("/menu")
-    public String menu(@RequestParam("uid") int uid,Model model) {
         System.out.println("*************menu clicked*********uid:"+uid);
         model.addAttribute("userid",uid);
         return "success";
@@ -186,9 +178,35 @@ public class UserController {
     }
 
     @RequestMapping("/addRating")
-    public String addRating(Model model){
-        model.addAttribute("returnRating", new Rating());
-        return "editrating";
+    public String addRating(@RequestParam("uid") int uid,Model model){
+        List<Movie> randomlist = movieService.queryMovieRandomly();
+        List<Movie> randomlist2 = new ArrayList<>();
+        Random random=new Random();
+        for(int i = 0; i < 10; i ++){
+            int index = random.nextInt(1000);
+            randomlist2.add(randomlist.get(index));
+        }
+        System.out.println("randomlist2:"+randomlist2+"*****************");
+        model.addAttribute("randommovielist",randomlist2 );
+        model.addAttribute("userid",uid);
+        model.addAttribute("returnRatinglist", new ArrayList<Rating>()
+        );
+        return "addrating";
+    }
+
+    @RequestMapping("/submitScores")
+    public String submitscores(@RequestParam("uid") int uid, @RequestBody List<Rating> ratinglist, Model model){
+        System.out.println("ratinglist:"+ratinglist+"***************");
+        for(Rating rating : ratinglist){
+            String str = Long.toString(new Date().getTime()).substring(1,10);
+            rating.setTimeStamp(str);
+            System.out.println("rating:"+rating+"*************");
+            //rating.setUserId(uid);
+            ratingService.addRating(rating);
+            System.out.println("rating submti success +1*************");
+        }
+        model.addAttribute("userid",uid);
+        return "userRating";
     }
 
     @RequestMapping("/deleteRating")
@@ -214,7 +232,8 @@ public class UserController {
     public String listuserrating(@RequestParam(value="currentPage",defaultValue="1",required=false)
                                      int currentPage,
                                  @RequestParam(value="uid")int uid, Model model) {
-        model.addAttribute("pagemsg", ratingService.findUserRatingByPage(currentPage,uid));//回显分页数据\
+        model.addAttribute("pagemsg", ratingService.findUserRatingByPage(currentPage,uid));//回显分页数据
+        System.out.println(ratingService.findUserRatingByPage(currentPage,uid)+"********************");
         model.addAttribute("uid",uid);
         return "userRating";
     }
@@ -232,12 +251,10 @@ public class UserController {
         System.out.println(rating.toString());
         System.out.println("************saving rating*********************");
 
-        Date date = new Date();
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-        String dateStr=sdf.format(date);
-        rating.setTimeStamp(dateStr);
+        String str = Long.toString(new Date().getTime()).substring(1,10);
+        rating.setTimeStamp(str);
 
-        System.out.println("************timestamp:"+rating.getTimeStamp()+"*********************");
+        System.out.println("************timestamp:"+str+"*********************");
         ratingService.updateRating(rating);
         int rid = userService.queryUserById(rating.getUserId()).getRoleId();
         if(rid == 2) {
@@ -249,24 +266,29 @@ public class UserController {
     @RequestMapping("/submitToSpark")
     public String submitToSpark(@RequestParam("uid") int uid){
         submitToSparkandLoad(uid);
-        return "recommend";
+        return "redirect:/user/recommend?"+uid;
 
     }
 
     @RequestMapping("/recommend")
     public String recommend(@RequestParam("uid") int uid, Model model){
+        System.out.println("******coming recommend********");
         List<Integer> movieids = movieService.queryMovieByUid(uid);
+        System.out.println("******coming movieids:"+movieids+"*********");
+
         List<Movie> movierecomemnd = new ArrayList<>();
         for(int i : movieids){
             movierecomemnd.add(movieService.queryById(i));
         }
+        System.out.println("******coming movierecomemnd:"+movierecomemnd+"*********");
+
         model.addAttribute("list",movierecomemnd);
         return "recommend";
     }
 
 
     public void submitToSparkandLoad(int uid) {
-        String shellString = "spark-submit --class recommend.MovieLensALS ~/IdeaProjects/Film_Recommend_Dataframe/out/artifacts/Film_Recommend_Dataframe_jar/Film_Recommend_Dataframe.jar  /input_spark"+" "+"24";
+        String shellString = "spark-submit --class recommend.MovieLensALS ~/IdeaProjects/Film_Recommend_Dataframe/out/artifacts/Film_Recommend_Dataframe_jar/Film_Recommend_Dataframe.jar  /input_spark"+" "+uid;
         System.out.println("shellString:"+shellString);
         StringBuilder result = new StringBuilder();
 

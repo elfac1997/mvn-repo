@@ -94,7 +94,7 @@ public class RatingServiceImpl implements RatingService {
         pageBean.setCurrPage(currentPage);
 
         //每页显示的数据
-        int pageSize=5;
+        int pageSize=10;
         pageBean.setPageSize(pageSize);
 
         //封装总记录数

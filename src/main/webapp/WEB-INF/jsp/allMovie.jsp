@@ -11,12 +11,9 @@
 <head>
     <title>Movie列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 引入 Bootstrap -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
     <style type="text/css">
-        td {
-            text-align: center;
-        }
 
         .td2 {
             text-align: right;
@@ -33,41 +30,32 @@
     </style>
 </head>
 <body>
-欢迎你：${currentUser}
-<br>
-<a href="logout">安全退出</a>
-<br><a href="/user/menu?uid=${uid}">return to menu</a><br>
-<hr>
-<a href="/movie/addMovie"> 添加movie</a><br>
-<c:if test="${empty requestScope.pagemsg}">
-    没有任何用户信息！
-</c:if>
-<c:if test="${!empty requestScope.pagemsg}">
-    <table border="1" cellpadding="10" cellspacing="0" class="table1">
-        <thead>
+<!--<table border="1" cellpadding="10" cellspacing="0" class="table1">-->
+<table class="layui-table" >
+
+    <thead>
+    <tr>
+        <td>电影编号</td>
+        <td>电影名字</td>
+        <td>电影年份</td>
+        <td>电影导演</td>
+        <td>电影poster</td>
+        <td>编辑</td>
+        <td>删除</td>
+    </tr>
+    </thead>
+    <c:forEach items="${requestScope.pagemsg.lists}" var="m">
         <tr>
-            <td>电影编号</td>
-            <td>电影名字</td>
-            <td>电影年份</td>
-            <td>电影导演</td>
-            <td>电影poster</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <th>${m.movieId}</th>
+            <th>${m.movieName}</th>
+            <th>${m.releaseTime}</th>
+            <th>${m.director}</th>
+            <th><img src='${m.picture}'></th>
+            <th><a href="/movie/edit?id=${m.movieId}">编辑</a></th>
+            <th><a href="/movie/delete?id=${m.movieId}" onclick="return confirm('确定要删除吗')">删除</a></th>
         </tr>
-        </thead>
-        <c:forEach items="${requestScope.pagemsg.lists}" var="m">
-            <tr>
-                <th>${m.movieId}</th>
-                <th>${m.movieName}</th>
-                <th>${m.releaseTime}</th>
-                <th>${m.director}</th>
-                <th><img src='${m.picture}'></th>
-                <th><a href="/movie/edit?id=${m.movieId}">Edit</a></th>
-                <th><a href="/movie/delete?id=${m.movieId}" onclick="return confirm('确定要删除吗')">Delete</a></th>
-            </tr>
-        </c:forEach>
-    </table>
-</c:if>
+    </c:forEach>
+</table>
 
 <table border="0" cellspacing="0" cellpadding="0" width="900px">
     <tr>

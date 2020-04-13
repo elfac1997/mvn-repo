@@ -9,14 +9,11 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>User列表</title>
+    <title>用户列表</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 引入 Bootstrap -->
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css">
+    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
     <style type="text/css">
-        td {
-            text-align: center;
-        }
 
         .td2 {
             text-align: right;
@@ -33,25 +30,17 @@
     </style>
 </head>
 <body>
-欢迎你：${currentUser}
-<br>
-<a href="logout">安全退出</a>
-<br><a href="/user/menu?uid=${uid}">return to menu</a><br>
-<hr>
-<a href="/user/addUser"> 添加用户</a><br>
-<c:if test="${empty requestScope.pagemsg}">
-没有任何用户信息！
-</c:if>
-<c:if test="${!empty requestScope.pagemsg}">
-<table border="1" cellpadding="10" cellspacing="0" class="table1">
+<!--<table border="1" cellpadding="10" cellspacing="0" class="table1">-->
+<table class="layui-table">
+
     <thead>
     <tr>
-        <td>编号</td>
+        <td>用户ID</td>
         <td>用户名</td>
         <td>密码</td>
-        <td>roleid</td>
-        <td>Edit</td>
-        <td>Delete</td>
+        <td>身份</td>
+        <td>编辑</td>
+        <td>删除</td>
     </tr>
     </thead>
     <c:forEach items="${requestScope.pagemsg.lists}" var="u">
@@ -60,12 +49,11 @@
             <th>${u.username }</th>
             <th>${u.password }</th>
             <th>${u.roleId }</th>
-            <th><a href="/user/edit?id=${u.id}">Edit</a></th>
-            <th><a href="/user/delete?id=${u.id}" onclick="return confirm('确定要删除吗')">Delete</a></th>
+            <th><a href="/user/edit?uid=${u.id}">编辑</a></th>
+            <th><a href="/user/delete?uid=${u.id}" onclick="return confirm('确定要删除吗')">删除</a></th>
         </tr>
     </c:forEach>
 </table>
-</c:if>
 
 <table border="0" cellspacing="0" cellpadding="0" width="900px">
     <tr>

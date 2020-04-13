@@ -77,7 +77,7 @@
 <!--    </select>-->
 
     <select id="findUserRatingByPage" parameterType="Map" resultMap="RatingWithMovie">
-        select * from personalratings as p left join movieinfo as m on p.movieid = m.movieid
+        select * from personalratings  p left join movieinfo  m on p.movieid = m.movieid
         where p.userid=#{uid}
         <if test="start!=null and size!=null">
             limit #{start},#{size}

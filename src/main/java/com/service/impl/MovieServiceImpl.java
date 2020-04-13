@@ -33,8 +33,8 @@ public class MovieServiceImpl implements MovieService {
         return moviedao.queryById(id);
     }
 
-    public List<Movie> queryAllMovies() {
-        return moviedao.queryAllMovies();
+    public List<Movie> queryMovieRandomly() {
+        return moviedao.queryMovieRandomly();
     }
 
     public int selectCount() {

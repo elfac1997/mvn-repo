@@ -14,7 +14,7 @@ public interface MovieDao {
 
     Movie queryById(int id);
 
-    List<Movie> queryAllMovies();
+    List<Movie> queryMovieRandomly();
 
     int selectCount();
 

@@ -7,6 +7,7 @@ public class Rating {
     private Integer movieId;
     private String timeStamp;
     private Integer rating;
+    private Movie movie;
 
     public Integer getUserId() {
         return userId;
@@ -40,6 +41,14 @@ public class Rating {
         this.rating = rating;
     }
 
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
     @Override
     public String toString() {
         return "Rating{" +
@@ -47,6 +56,7 @@ public class Rating {
                 ", movieId=" + movieId +
                 ", timeStamp='" + timeStamp + '\'' +
                 ", rating=" + rating +
+                ", movie=" + movie +
                 '}';
     }
 }

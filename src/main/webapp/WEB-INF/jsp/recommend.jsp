@@ -41,10 +41,10 @@ guess you might like
             <td>${m.movieName}</td>
             <td>${m.releaseTime}</td>
             <td>${m.director}</td>
-            <td>${m.leaderActors}</td>
+            <td>${m.leadActors}</td>
             <td>${m.description}</td>
             <td>${m.averating}</td>
-            <td>${m.typelist}</td>
+            <td>${m.typeList}</td>
             <td><a href="/movie/like?id=${m.movieId}">like!</a></td>
         </tr>
     </c:forEach>

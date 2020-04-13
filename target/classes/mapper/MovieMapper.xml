@@ -64,4 +64,17 @@
         </if>
     </select>
 
+    <select id="queryMovieByUid" parameterType="int" resultType="int">
+        select movieid
+        from recommendresult
+        where userid = #{id}
+    </select>
+
+    <select id="queryMovieRandomly" resultMap="movieResultMap">
+        select *
+        from movieinfo
+        order by releasetime
+        desc limit 1000
+    </select>
+
 </mapper>
