@@ -17,8 +17,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>电影评分</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css">
-    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
-    <style>
+<%--    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>--%>
+<%--    <script type="text/javascript" src="${pageContext.request.contextPath}/layui/jquery-3.4.1.min.js"></script>--%>
+<%--    --%><style>
         body {background-image:url("/layui/images/purewhite.jpg");height:100%;width:100%;}
         #container{height:100%;width:100%;}
         input:-webkit-autofill {-webkit-box-shadow:inset 0 0 0 1000px #fff;background-color:transparent;}
@@ -48,10 +49,10 @@
     <div class="admin-login-background">
         <table class="layui-table" >
             <colgroup>
-                <col width="200">
-                <col width="200">
-                <col width="200">
-                <col width="200">
+                <col width="400">
+                <col width="400">
+                <col width="400">
+                <col width="400">
                 <col>
             </colgroup>
             <thead>
@@ -63,39 +64,68 @@
                 <td>评分</td>
             </tr>
             </thead>
-            <form action="/user/submitScores?uid=${userid}" method="post" modelAttribute="returnRatinglist">
-        <c:forEach items="${requestScope.randommovielist}" var="m">
+            <!--/user/submitScores?uid=${userid}-->
+            <form action="#" method="post" id="form" name="form" modelAttribute="returnRatinglist">
                 <tr>
-                    <input type="text" style="visibility:hidden;width: 0px;height: 0px;" value="${userId}" name="userid">
-                    <input type="text" style="visibility:hidden;width: 0px;height: 0px;" value="${m.movieId}" name="movieid">
-                    <th>${m.movieName}</th>
-                    <th>${m.releaseTime}</th>
-                    <th>${m.director}</th>
-                    <th><img src='${m.picture}'></th>
-                    <th>
-                        <select name="rating">
-                            <option value=""></option>
-                            <option selected value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select></th>
+                    <c:forEach items="${requestScope.randommovielist}" var="m">
+                <tr>
+                    <input type="text" style="visibility:hidden;width: 0px;height: 0px;" value="${userid}" name="userId">
+                    <input type="text" style="visibility:hidden;width: 0px;height: 0px;" value="${m.movieId}" name="movieId">
+                    <th>${m.movieName }</th>
+                    <th>${m.releaseTime }</th>
+                    <th>${m.director }</th>
+                    <th><img src="${m.picture }"/></th>
+                    <th><select name="rating" >
+                        <option value=""></option>
+                        <option selected value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select></th>
                 </tr>
-            </c:forEach>
+                </c:forEach>
+                </tr>
+                <div class="layui-form-item">
+                    <button class="layui-btn" type="button" lay-submit="" id="serializeJson" onclick="mc(${userid})" >提交</button>
+                </div>
             </form>
-            <div class="layui-form-item">
-                    <button class="layui-btn" type="button" lay-submit >提交</button>
-            </div>
+
         </table>
     </div>
 </div>
-<script>
-    //Demo
-    layui.use('form', function(){
-        var form = layui.form;
-        form.render();
-    });
+<%--<script>--%>
+<%--    layui.use('form', function(){--%>
+<%--        var form = layui.form;--%>
+<%--        form.render();--%>
+<%--    });--%>
+
+<%--</script>--%>
+<script type="text/javascript">
+    function mc(obj){
+        var uid=$(obj).text();
+        testJquerySerializeJson();
+        var jsonData =  $("form").serializeArray();
+        $.ajax( {
+            type : POST,
+            url : "/user/submitScores?uid="+uid,
+            data : {params:jsonData},
+            success : function(msg) {
+                alert(success: + msg);
+            }
+        });
+    }
+
+    function testJquerySerializeJson() {
+        var jsonData = $("form)".serializeArray();
+        alert("序列化为json格式为："+JSON.stringify(jsonData)); //JSON.stringify(json对象) 将json对象转化为json字符串
+
+    }
+</script>
+<script type="text/javascript">
+    window.jQuery || document
+        .write("<script src='${contextPath}/assets/js/jquery.js'>"
+            + "<"+"/script>");
 </script>
 </body>
 </html>

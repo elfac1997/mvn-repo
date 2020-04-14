@@ -24,7 +24,10 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public int deleteRatingByIds(int uid, int mid) {
-        return ratingDao.deleteRatingByIds(uid, mid);
+        HashMap<String,Integer> map = new HashMap<>();
+        map.put("uid",uid);
+        map.put("mid",mid);
+        return ratingDao.deleteRatingByIds(map);
     }
 
     @Override

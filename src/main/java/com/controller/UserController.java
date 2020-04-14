@@ -8,7 +8,6 @@ import com.service.MovieService;
 import com.service.RatingService;
 import com.service.UserService;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.spark.deploy.SparkSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 import javax.servlet.http.HttpServletRequest;
 
+
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -83,6 +84,11 @@ public class UserController {
         return "edit";
     }
 
+    @RequestMapping("/successedit")
+    public String successedit(){
+        return "successedit";
+    }
+
     @RequestMapping("/save")
     public String save(User user,Model model) {
         System.out.println("***************************************");
@@ -93,6 +99,12 @@ public class UserController {
         if(user.getId()!= null) {
             //有id值为修改
             userService.updateUser(user);
+            if(user.getRoleId()!=null){
+                return "redirect:/user/allUser";
+            }else{
+                user.setRoleId(2);
+                return "redirect:/user/successedit";
+            }
         }else if(user.getRoleId()!= null) {
             //admin register
             if(userService.getByUserName(name)!=null) {
@@ -116,7 +128,7 @@ public class UserController {
         }else {
             return "fail";
         }
-        return "success";
+        return "redirect:/user/allUser";
     }
 
     @RequestMapping("/toLogin")
@@ -194,17 +206,24 @@ public class UserController {
         return "addrating";
     }
 
+//    @RequestMapping("/submitScores")
+//    public String submitscores(HttpServletRequest req, HttpServletResponse resp, @RequestBody JSONObject obj, @RequestParam("uid") int uid, List<Rating> ratinglist, Model model){
+//        System.out.println("ratinglist:"+ratinglist+"***************");
+//        for(Rating rating : ratinglist){
+//            String str = Long.toString(new Date().getTime()).substring(1,10);
+//            rating.setTimeStamp(str);
+//            System.out.println("rating:"+rating+"*************");
+//            //rating.setUserId(uid);
+//            ratingService.addRating(rating);
+//            System.out.println("rating submti success +1*************");
+//        }
+//        model.addAttribute("userid",uid);
+//        return "userRating";
+//    }
+
     @RequestMapping("/submitScores")
-    public String submitscores(@RequestParam("uid") int uid, @RequestBody List<Rating> ratinglist, Model model){
-        System.out.println("ratinglist:"+ratinglist+"***************");
-        for(Rating rating : ratinglist){
-            String str = Long.toString(new Date().getTime()).substring(1,10);
-            rating.setTimeStamp(str);
-            System.out.println("rating:"+rating+"*************");
-            //rating.setUserId(uid);
-            ratingService.addRating(rating);
-            System.out.println("rating submti success +1*************");
-        }
+    public String submitscores(@RequestParam String params, @RequestParam("uid") int uid, Model model){
+        System.out.println(params);
         model.addAttribute("userid",uid);
         return "userRating";
     }
@@ -246,7 +265,7 @@ public class UserController {
     }
 
     @RequestMapping("/saveRating")
-    public String saveRating(Rating rating) {
+    public String saveRating(@RequestParam(value="uid")int uid,Rating rating ) {
         System.out.println("***********saving rating**********************");
         System.out.println(rating.toString());
         System.out.println("************saving rating*********************");
@@ -256,19 +275,21 @@ public class UserController {
 
         System.out.println("************timestamp:"+str+"*********************");
         ratingService.updateRating(rating);
-        int rid = userService.queryUserById(rating.getUserId()).getRoleId();
+        int rid = userService.queryUserById(uid).getRoleId();
         if(rid == 2) {
-            return "redirect:/user/userRating?uid="+rating.getUserId();
+            return "redirect:/user/userRating?uid="+uid;
         }
         return "redirect:/user/allRating";
     }
 
-    @RequestMapping("/submitToSpark")
-    public String submitToSpark(@RequestParam("uid") int uid){
-        submitToSparkandLoad(uid);
-        return "redirect:/user/recommend?"+uid;
-
-    }
+//    @RequestMapping("/submitToSpark")
+//    public String submitToSpark(@RequestParam("uid") int uid){
+//        System.out.println("****starting submit**********");
+//        submitToSparkandLoad(uid);
+//        System.out.println("**** submit  finished**********");
+//        return "redirect:/user/recommend?"+uid;
+//
+//    }
 
     @RequestMapping("/recommend")
     public String recommend(@RequestParam("uid") int uid, Model model){
@@ -286,8 +307,8 @@ public class UserController {
         return "recommend";
     }
 
-
-    public void submitToSparkandLoad(int uid) {
+    @RequestMapping("/submitToSpark")
+    public String submitToSpark(@RequestParam("uid") int uid) {
         String shellString = "spark-submit --class recommend.MovieLensALS ~/IdeaProjects/Film_Recommend_Dataframe/out/artifacts/Film_Recommend_Dataframe_jar/Film_Recommend_Dataframe.jar  /input_spark"+" "+uid;
         System.out.println("shellString:"+shellString);
         StringBuilder result = new StringBuilder();
@@ -330,7 +351,7 @@ public class UserController {
         }
     System.out.println(result.toString());
 // 返回执行结果
-        //return result.toString();
+        return "redirect:/user/recommend?uid="+uid;
     }
 
     private static void closeStream(Closeable stream) {

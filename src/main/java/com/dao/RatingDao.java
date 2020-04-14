@@ -8,7 +8,7 @@ import java.util.List;
 public interface RatingDao {
     int addRating(Rating rating);
 
-    int deleteRatingByIds(int uid,int mid);
+    int deleteRatingByIds(HashMap<String,Integer> map);
 
     int updateRating(Rating rating);
 

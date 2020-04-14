@@ -25,7 +25,7 @@
         VALUE (#{userId}, #{movieId}, #{rating},#{timeStamp})
     </insert>
 
-    <delete id="deleteRatingByIds" parameterType="Map">
+    <delete id="deleteRatingByIds" parameterType="Map" >
         DELETE FROM personalratings WHERE userid=#{uid} and movieid=#{mid}
     </delete>
 

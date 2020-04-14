@@ -67,15 +67,15 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <div class="layui-input-block">
-                    <input type="password" value="${returnUser.password}" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                    <input type="text" value="${returnUser.password}" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <shiro:hasRole name="admin">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">选择用户角色</label>
+                    <label class="layui-form-label">选择角色</label>
                     <div class="layui-input-block">
                         <select name="roleId" >
-                            <option value="value="${returnUser.roleId}""></option>
+                            <option value=""></option>
                             <option value="1">管理员</option>
                             <option value="2">普通用户</option>
                         </select>

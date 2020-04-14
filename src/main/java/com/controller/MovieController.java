@@ -36,7 +36,7 @@ public class MovieController {
     }
 
     @RequestMapping("/delete")
-    public String deleteMovie(@RequestParam("movieId") int id) {
+    public String deleteMovie(@RequestParam("id") int id) {
         movieService.deleteMovieById(id);
         return "redirect:/movie/allMovie";
     }
@@ -50,7 +50,7 @@ public class MovieController {
 //    }
 
     @RequestMapping("/edit")
-    public String updateMovie(@RequestParam("movieId") int id,
+    public String updateMovie(@RequestParam("id") int id,
                              Model model){
         Movie movie =movieService.queryById(id);
         model.addAttribute("returnMovie", movie);
