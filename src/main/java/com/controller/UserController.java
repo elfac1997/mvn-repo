@@ -205,27 +205,16 @@ public class UserController {
         );
         return "addrating";
     }
-
-//    @RequestMapping("/submitScores")
-//    public String submitscores(HttpServletRequest req, HttpServletResponse resp, @RequestBody JSONObject obj, @RequestParam("uid") int uid, List<Rating> ratinglist, Model model){
-//        System.out.println("ratinglist:"+ratinglist+"***************");
-//        for(Rating rating : ratinglist){
-//            String str = Long.toString(new Date().getTime()).substring(1,10);
-//            rating.setTimeStamp(str);
-//            System.out.println("rating:"+rating+"*************");
-//            //rating.setUserId(uid);
-//            ratingService.addRating(rating);
-//            System.out.println("rating submti success +1*************");
-//        }
-//        model.addAttribute("userid",uid);
-//        return "userRating";
-//    }
-
+//@RequestParam("uid") int uid,
     @RequestMapping("/submitScores")
-    public String submitscores(@RequestParam String params, @RequestParam("uid") int uid, Model model){
-        System.out.println(params);
-        model.addAttribute("userid",uid);
-        return "userRating";
+    public void submitscores( Rating rating, Model model){
+        System.out.println("rating:"+rating+"***************");
+        String str = Long.toString(new Date().getTime()).substring(1,10);
+        rating.setTimeStamp(str);
+        System.out.println("rating:"+rating+"*************");
+        ratingService.addRating(rating);
+        System.out.println("rating submti success +1*************");
+        //return "/movie/moviedetail?uid="+uid;
     }
 
     @RequestMapping("/deleteRating")
@@ -263,9 +252,9 @@ public class UserController {
         model.addAttribute("pagemsg", ratingService.findByPage(currentPage));//回显分页数据
         return "allRating";
     }
-
+//@RequestParam(value="uid")int uid,
     @RequestMapping("/saveRating")
-    public String saveRating(@RequestParam(value="uid")int uid,Rating rating ) {
+    public String saveRating(Rating rating ) {
         System.out.println("***********saving rating**********************");
         System.out.println(rating.toString());
         System.out.println("************saving rating*********************");
@@ -273,6 +262,7 @@ public class UserController {
         String str = Long.toString(new Date().getTime()).substring(1,10);
         rating.setTimeStamp(str);
 
+        int uid = rating.getUserId();
         System.out.println("************timestamp:"+str+"*********************");
         ratingService.updateRating(rating);
         int rid = userService.queryUserById(uid).getRoleId();

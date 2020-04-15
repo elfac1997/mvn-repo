@@ -73,7 +73,7 @@
     <select id="queryMovieRandomly" resultMap="movieResultMap">
         select *
         from movieinfo
-        order by releasetime
+        order by averating
         desc limit 1000
     </select>
 

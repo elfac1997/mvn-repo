@@ -20,7 +20,7 @@
         <div class="layui-logo">推荐系统管理平台</div>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                欢迎光临，${user.username}
+                欢迎~ ${user.username}
             </li>
             <li class="layui-nav-item"><a href="logout">安全退出</a></li>
         </ul>
@@ -38,12 +38,14 @@
                                 <a href="javascript:;" data-id="1" data-title="用户列表" data-url="/user/allUser"
                                    class="site-demo-active" data-type="tabAdd">用户列表</a></dd>
                             <dd>
-                                <a href="javascript:;" data-id="8" data-title="用户注册" data-url="/user/registerUser"
+                                <a href="javascript:;" data-id="2" data-title="用户注册" data-url="/user/registerUser"
                                    class="site-demo-active" data-type="tabAdd">用户注册</a></dd>
-                            <dd><a href="javascript:;" data-id="2" data-title="电影管理" data-url="/movie/allMovie"
+                            <dd><a href="javascript:;" data-id="3" data-title="电影管理" data-url="/movie/allMovie"
                                    class="site-demo-active" data-type="tabAdd">电影管理</a></dd>
-                            <dd><a href="javascript:;" data-id="3" data-title="评分管理" data-url="/user/allRating"
+                            <dd><a href="javascript:;" data-id="4" data-title="评分管理" data-url="/user/allRating"
                                    class="site-demo-active" data-type="tabAdd">评分管理</a></dd>
+                            <dd><a href="javascript:;" data-id="5" data-title="评论管理" data-url="/movie/allComment"
+                                   class="site-demo-active" data-type="tabAdd">评论管理</a></dd>
                         </dl>
                     </li>
                 </shiro:hasRole>
@@ -51,13 +53,17 @@
                     <a href="javascript:;">用户选项</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="javascript:;"  data-id="4" data-title="评分列表" data-url="/user/userRating?uid=${userid }"
+                            <a href="javascript:;"  data-id="6" data-title="评分列表" data-url="/user/userRating?uid=${userid }"
                                class="site-demo-active" data-type="tabAdd">评分列表</a></dd>
                         <dd>
-                            <a href="javascript:;"  data-id="5" data-title="推荐列表" data-url="/user/recommend?uid=${userid }"
+                        <dd>
+                            <a href="javascript:;"  data-id="7" data-title="评论列表" data-url="/movie/userComment?uid=${userid }"
+                               class="site-demo-active" data-type="tabAdd">评论列表</a></dd>
+                        <dd>
+                            <a href="javascript:;"  data-id="8" data-title="推荐列表" data-url="/user/recommend?uid=${userid }"
                                class="site-demo-active" data-type="tabAdd">推荐列表</a></dd>
                         <dd>
-                            <a href="javascript:;"  data-id="6" data-title="用户信息管理" data-url="/user/edit?uid=${userid }"
+                            <a href="javascript:;"  data-id="9" data-title="用户信息管理" data-url="/user/edit?uid=${userid }"
                                class="site-demo-active" data-type="tabAdd">用户信息管理</a></dd>
                     </dl>
                 </li>
@@ -65,12 +71,12 @@
                     <a href="javascript:;">电影推荐</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="javascript:;" data-id="7" data-title="电影评分" data-url="/user/addRating?uid=${userid }"
+                            <a href="javascript:;" data-id="10" data-title="电影评分" data-url="/movie/moviedetail?uid=${userid }"
                                class="site-demo-active" data-type="tabAdd">电影评分</a></dd>
                     </dl>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="javascript:;" data-id="9" data-title="电影推荐" data-url="/user/submitToSpark?uid=${userid }"
+                            <a href="javascript:;" data-id="11" data-title="电影推荐" data-url="/user/submitToSpark?uid=${userid }"
                                class="site-demo-active" data-type="tabAdd">电影推荐</a></dd>
                     </dl>
                 </li>
@@ -84,10 +90,10 @@
         <div class="layui-tab-content"></div>
     </div>
 
-<%--    <div class="layui-footer" style="text-align:center;">--%>
-<%--        <!-- 底部固定区域 -->--%>
-<%--        © 电影推荐系统--%>
-<%--    </div>--%>
+    <%--    <div class="layui-footer" style="text-align:center;">--%>
+    <%--        <!-- 底部固定区域 -->--%>
+    <%--        © 电影推荐系统--%>
+    <%--    </div>--%>
 </div>
 <script>
     layui.use(['element', 'layer', 'jquery'], function () {
@@ -118,7 +124,6 @@
             //最后不管是否新增tab，最后都转到要打开的选项页面上
             active.tabChange(dataid.attr("data-id"));
         });
-
         var active = {
             //在这里给active绑定几项事件，后面可通过active调用这些事件
             tabAdd: function (url, id, name) {

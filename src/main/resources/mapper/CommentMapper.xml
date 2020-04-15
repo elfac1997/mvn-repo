@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.CommentDao">
+    <resultMap type="Comment" id="commentResultMap" >
+        <id property="id" column="id"/>
+        <result property="userId" column="userid"/>
+        <result property="movieId" column="movieid"/>
+        <result property="timeStamp" column="timestamp"/>
+        <result property="comment" column="comment"/>
+    </resultMap>
+
+    <resultMap id="CommentWithMovieAndUser" type="Comment" extends="commentResultMap">
+        <association property="movie" javaType="Movie" autoMapping="true">
+            <id column="movieid" property="movieId"></id>
+            <result column="moviename" property="movieName"></result>
+            <result column="picture" property="picture"></result>
+        </association>
+    </resultMap>
+
+    <insert id="addComment" parameterType="Comment">
+        INSERT INTO personalcomment(userid,movieid,comment,timestamp)
+        VALUE (#{userId}, #{movieId}, #{comment},#{timeStamp})
+    </insert>
+
+    <delete id="deleteCommentByIds" parameterType="Map" >
+        DELETE FROM personalcomment
+		WHERE userid=#{uid} and movieid=#{mid}
+    </delete>
+
+    <update id="updateComment" parameterType="Comment">
+        UPDATE personalcomment
+        SET
+        comment = #{comment},
+        timestamp = #{timeStamp}
+        WHERE userid=#{userId} and movieid=#{movieId}
+    </update>
+
+    <select id="queryByIds" parameterType="Map" resultMap="commentResultMap">
+        SELECT userid,movieid,comment,timestamp
+        FROM personalcomment
+        WHERE userid=#{uid} and movieid=#{mid}
+    </select>
+
+    <select id="queryUserComments" resultMap="commentResultMap">
+        SELECT userid,movieid,comment,timestamp
+        FROM personalcomment
+        LIMIT 50
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(*) from personalcomment
+    </select>
+
+    <select id="selectUserCount" parameterType="int" resultType="int">
+        select count(*)
+        from personalcomment
+        where userid=#{userId}
+    </select>
+
+    <select id="findByPage" parameterType="Map" resultMap="commentResultMap">
+        select userid,movieid,comment,timestamp
+        from personalcomment
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="findUserCommentByPage" parameterType="Map" resultMap="CommentWithMovieAndUser">
+        select * from personalcomment  p left join movieinfo  m on p.movieid = m.movieid
+        where p.userid=#{uid}
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+</mapper>

@@ -11,8 +11,6 @@
     </resultMap>
 
     <resultMap id="RatingWithMovie" type="Rating" extends="ratingResultMap">
-        <!--由于继承了OrderResultMap 所以这里就不用再写order表的信息了-->
-        <!--用户表信息-->
         <association property="movie" javaType="Movie" autoMapping="true">
             <id column="movieid" property="movieId"></id>
             <result column="moviename" property="movieName"></result>
@@ -66,15 +64,6 @@
             limit #{start},#{size}
         </if>
     </select>
-
-<!--    <select id="findUserRatingByPage" parameterType="Map" resultMap="ratingResultMap">-->
-<!--        select userid,movieid,rating,timestamp-->
-<!--        from personalratings-->
-<!--        where userid=#{uid}-->
-<!--        <if test="start!=null and size!=null">-->
-<!--            limit #{start},#{size}-->
-<!--        </if>-->
-<!--    </select>-->
 
     <select id="findUserRatingByPage" parameterType="Map" resultMap="RatingWithMovie">
         select * from personalratings  p left join movieinfo  m on p.movieid = m.movieid
