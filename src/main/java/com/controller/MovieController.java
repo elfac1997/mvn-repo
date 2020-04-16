@@ -119,8 +119,8 @@ public class MovieController {
         System.out.println("comment:"+comment+"*************");
         commentService.addComment(comment);
         System.out.println("comment submti success +1*************");
-        model.addAttribute("userid",comment.getUserId());
-        return "redirect:/movie/moviedetial?uid="+comment.getUserId();
+        //model.addAttribute("userid",comment.getUserId());
+        return "redirect:/movie/moviedetail?uid="+comment.getUserId();
     }
 
     @RequestMapping("/userComment")
@@ -151,23 +151,23 @@ public class MovieController {
         return "editcomment";
     }
 
-    @RequestMapping("/saveComment")
-    public String saveComment(@RequestParam(value="uid")int uid,Comment comment ) {
-        System.out.println("***********saving comment**********************");
-        System.out.println(comment.toString());
-        System.out.println("************saving comment*********************");
-
-        Long timestamp = System.currentTimeMillis();
-        String pattern = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String time = simpleDateFormat.format(new Date(timestamp));
-        comment.setTimeStamp(time);
-
-        System.out.println("************timestamp:"+time+"*********************");
-        commentService.updateComment(comment);
-
-        return "redirect:/movie/userComment?uid="+uid;
-    }
+//    @RequestMapping("/saveComment")
+//    public String saveComment(@RequestParam(value="uid")int uid,Comment comment ) {
+//        System.out.println("***********saving comment**********************");
+//        System.out.println(comment.toString());
+//        System.out.println("************saving comment*********************");
+//
+//        Long timestamp = System.currentTimeMillis();
+//        String pattern = "yyyy-MM-dd HH:mm:ss";
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+//        String time = simpleDateFormat.format(new Date(timestamp));
+//        comment.setTimeStamp(time);
+//
+//        System.out.println("************timestamp:"+time+"*********************");
+//        commentService.updateComment(comment);
+//
+//        return "redirect:/movie/userComment?uid="+uid;
+//    }
 
     @RequestMapping("/deleteComment")
     public String deleteRating(@RequestParam("uid") int uid,@RequestParam("mid") int mid) {

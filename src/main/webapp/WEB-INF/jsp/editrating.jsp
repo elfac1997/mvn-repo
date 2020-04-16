@@ -67,26 +67,7 @@
                 </div>
         </form>
     </div>
-<%--    <form:form action="/user/saveRating" method="post" modelAttribute="returnRating">--%>
-<%--    userid:<form:input path="userId"/><br>--%>
-<%--    movieid:<form:input path="movieId"/><br>--%>
-<%--    <shiro:hasRole name="user">--%>
-<%--    具备user角色才能看到这句话--%>
-<%--    </shiro:hasRole>--%>
-<%--    <shiro:hasRole name="admin">--%>
-<%--    具备admin角色才能看到这句话--%>
-<%--    </shiro:hasRole><br>--%>
-<%--    rating:--%>
-<%--    <form:select path="rating">--%>
-<%--    <form:option value="">请选择rating</form:option>--%>
-<%--    <form:option value="1">1</form:option>--%>
-<%--    <form:option value="2">2</form:option>--%>
-<%--    <form:option value="3">3</form:option>--%>
-<%--    <form:option value="4">4</form:option>--%>
-<%--    <form:option value="5">5</form:option>--%>
-<%--    </form:select><br>--%>
-<%--    <input type="submit" value="提交"/>--%>
-<%--    </form:form>--%>
+
     <script>
         //Demo
         layui.use('form', function(){

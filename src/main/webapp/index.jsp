@@ -20,7 +20,10 @@
         <legend>电影推荐系统</legend>
     </fieldset>
     <h3>
-        <a href="/user/toLogin">登录</a>
+        <a href="/user/toLogin">登 录</a>
+    </h3>
+    <h3>
+        <a href="/user/registerUser">注 册</a>
     </h3>
     <div class="layui-carousel" id="test1" lay-filter="test1" style="text-align: center;margin: 0 auto;border: green solid 1px;">
         <div carousel-item="">

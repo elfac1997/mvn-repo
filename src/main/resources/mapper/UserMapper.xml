@@ -66,6 +66,7 @@
     <select id="findByPage" parameterType="Map" resultMap="userResultMap">
         select userid,username,password,roleid
         from user
+        order by roleid asc,userid asc
         <if test="start!=null and size!=null">
             limit #{start},#{size}
         </if>
